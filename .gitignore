@@ -1,0 +1,98 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
+env/
+venv/
+backend/venv/
+ENV/
+.venv/
+htmlcov/
+.coverage
+*.egg-info
+dist/
+build/
+sdist/
+wheel/
+MANIFEST
+
+# Database
+*.sqlite
+*.db
+*.sqlite-*
+instance/
+
+# Environment Variables
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+_build
+build/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.whl
+*.pth
+*.tox
+.pytest_cache
+_pytest
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*.vim
+*.sublime-project
+*.sublime-workspace
+
+# OS Specific Files
+.DS_Store
+Thumbs.db
+
+# Casdoor (logs or temporary files if any)
+# logs/
+# tmp/
+
+# Frontend (Angular)
+node_modules/
+dist/
+build/
+yarn-error.log
+package-lock.json
+
+# Tailwind CSS (cache or build output if any)
+# tailwind-cache/
+
+# Other temporary files
+*.log
+*.bak
+*.orig
+*~
