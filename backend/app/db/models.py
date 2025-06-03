@@ -15,10 +15,11 @@ class Link(Base):
     __tablename__ = "links"
 
     id = Column(Integer, primary_key=True, index=True)
-    url = Column(String, unique=True, index=True, nullable=False)
+    url = Column(String, index=True, nullable=False)
     title = Column(String, nullable=True)
     description = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), default=func.now())
+    owner_uid = Column(String, index=True, nullable=False)
     
     def __repr__(self):
         return f"<Link(id={self.id}, url={self.url}, title={self.title})>"

@@ -37,4 +37,5 @@ class Link(LinkBase):
     """
     id: int
     created_at: datetime
+    owner_uid: str
     model_config = ConfigDict(from_attributes=True)

@@ -6,29 +6,34 @@ from sqlalchemy.orm import Session
 from app.db.models import Link
 from app.schemas.links import LinkCreate, LinkUpdate
 
-def get_link(db: Session, link_id: int):
+def get_link_by_id_and_owner(db: Session, link_id: int, owner_uid: str = None):
     """
     Obtiene un enlace por su ID.
     """
-    return db.query(Link).filter(Link.id == link_id).first()
+    return db.query(Link).filter(Link.id == link_id, Link.owner_uid == owner_uid).first()
 
-def get_link_by_url(db: Session, url: str):
+def get_link_by_url_and_owner(db: Session, url: str, owner_uid: str = None):
     """
     Obtiene un enlace por su URL.
     """
-    return db.query(Link).filter(Link.url == url).first()
+    return db.query(Link).filter(Link.url == url, Link.owner_uid == owner_uid).first()
 
-def get_links(db: Session, skip: int = 0, limit: int = 100):
+def get_links_by_owner(db: Session, owner_uid: str, skip: int = 0, limit: int = 100):
     """
     Obtiene una lista de enlaces con paginación.
     """
-    return db.query(Link).offset(skip).limit(limit).all()
+    return db.query(Link).filter(Link.owner_uid == owner_uid).offset(skip).limit(limit).all()
 
-def create_link(db: Session, link: LinkCreate):
+def create_link(db: Session, link: LinkCreate, owner_uid: str):
     """
     Crea un nuevo enlace en la base de datos.
     """
-    db_link = Link(**link.model_dump())
+    db_link = Link(
+        url=link.url,
+        title=link.title,
+        description=link.description,
+        owner_uid=owner_uid
+    )
     db.add(db_link)
     db.commit()
     db.refresh(db_link)

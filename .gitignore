@@ -77,6 +77,9 @@ _pytest
 .DS_Store
 Thumbs.db
 
+#Firebase Keys
+keys/
+
 # Casdoor (logs or temporary files if any)
 # logs/
 # tmp/
