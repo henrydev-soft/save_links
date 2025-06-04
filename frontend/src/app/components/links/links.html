@@ -1,0 +1,116 @@
+<div class="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+  <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 mb-8">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Gestión de Enlaces</h2>
+
+    <p *ngIf="userEmail" class="text-center text-lg text-gray-700 mb-6">
+      Bienvenido, <span class="font-semibold text-blue-600">{{ userEmail }}</span>
+    </p>
+
+    <button
+      (click)="logout()"
+      class="block mx-auto mb-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
+    >
+      Cerrar Sesión
+    </button>
+
+    <div class="mt-8 p-6 border border-gray-200 rounded-lg shadow-sm">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">
+        {{ editingLink ? 'Editar Enlace' : 'Añadir Nuevo Enlace' }}
+      </h3>
+
+      <form [formGroup]="linkForm" (ngSubmit)="submitLink()" class="space-y-4">
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+          <input
+            id="title"
+            type="text"
+            formControlName="title"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Título del enlace"
+          />
+          <div *ngIf="linkForm.get('title')?.invalid && (linkForm.get('title')?.dirty || linkForm.get('title')?.touched)" class="text-red-500 text-xs mt-1">
+            <div *ngIf="linkForm.get('title')?.errors?.['required']">El título es requerido.</div>
+          </div>
+        </div>
+
+        <div>
+          <label for="url" class="block text-sm font-medium text-gray-700 mb-1">URL</label>
+          <input
+            id="url"
+            type="url"
+            formControlName="url"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="https://ejemplo.com"
+          />
+          <div *ngIf="linkForm.get('url')?.invalid && (linkForm.get('url')?.dirty || linkForm.get('url')?.touched)" class="text-red-500 text-xs mt-1">
+            <div *ngIf="linkForm.get('url')?.errors?.['required']">La URL es requerida.</div>
+            <div *ngIf="linkForm.get('url')?.errors?.['pattern']">Introduce una URL válida.</div>
+          </div>
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripción (Opcional)</label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="3"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Breve descripción del enlace"
+          ></textarea>
+        </div>
+
+        <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <span class="block sm:inline">{{ errorMessage }}</span>
+        </div>
+
+        <div class="flex justify-end space-x-2">
+          <button
+            type="button"
+            (click)="addNewLink()"
+            class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Limpiar Formulario
+          </button>
+          <button
+            type="submit"
+            [disabled]="!linkForm.valid"
+            class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+          >
+            {{ editingLink ? 'Guardar Cambios' : 'Añadir Enlace' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="mt-8">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Tus Enlaces</h3>
+      <p *ngIf="links.length === 0" class="text-gray-600 text-center">No tienes enlaces guardados. ¡Añade uno!</p>
+
+      <ul class="space-y-4">
+        <li *ngFor="let link of links" class="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <div class="mb-2 sm:mb-0 sm:mr-4 flex-grow">
+            <a [href]="link.url" target="_blank" class="text-blue-700 hover:underline text-lg font-medium block">
+              {{ link.title }}
+            </a>
+            <p *ngIf="link.description" class="text-gray-600 text-sm mt-1">{{ link.description }}</p>
+            <span class="text-gray-500 text-xs break-all">{{ link.url }}</span>
+          </div>
+          <div class="flex space-x-2">
+            <button
+              (click)="editLink(link)"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white text-sm py-1 px-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75"
+            >
+              Editar
+            </button>
+            <button
+              (click)="deleteLink(link.id)"
+              class="bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
+            >
+              Eliminar
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
