@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./app.db"
 
     # Configuración de CORS
-    CORS_ALLOW_ORIGINS: list[str] = ["*"] # Permitir todas los orígenes
+    CORS_ALLOW_ORIGINS: list[str] = ["http://localhost:4200"] # Permitir todas los orígenes
     CORS_ALLOW_CREDENTIALS: bool = True
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]
