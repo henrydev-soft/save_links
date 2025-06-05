@@ -5,7 +5,8 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { AuthService } from '../../services/auth-service';
 import { LinkService } from '../../services/link'; // Importa tu LinkService
 import { Link, LinkCreate, LinkUpdate } from '../../interfaces/link.interface'; // Importa tus interfaces
-import { Observable, Subscription } from 'rxjs'; // Necesario para Observables y Subscriptions
+import { Subscription } from 'rxjs'; // Necesario para Observables y Subscriptions
+
 
 @Component({
   selector: 'app-links',
@@ -51,7 +52,7 @@ export class Links  implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Asegúrate de desuscribirte para evitar fugas de memoria
+    // Desuscribirse para evitar fugas de memoria
     this.userSubscription?.unsubscribe();
     this.linksSubscription?.unsubscribe();
   }

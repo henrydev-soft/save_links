@@ -24,10 +24,12 @@ export const firebaseIdTokenInterceptor: HttpInterceptorFn = (req, next) => {
           }
         });
         return next(clonedReq);
+      } else {
+        // Si no hay token, simplemente procede con la petición original (sin token)
+        // Esto es útil para rutas públicas o si el usuario no está logueado
+        return next(req);
       }
-      // Si no hay token, simplemente procede con la petición original (sin token)
-      // Esto es útil para rutas públicas o si el usuario no está logueado
-      return next(req);
+      
     })
   );
 

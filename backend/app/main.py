@@ -15,7 +15,10 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 #Inicializar Firebase Admin SDK
-initialize_firebase()
+try:
+    initialize_firebase()
+except Exception as e:
+    print(f"Error al inicializar Firebase Admin SDK: {e}")
 
 # Configurar CORS middleware
 app.add_middleware(
