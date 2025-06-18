@@ -18,6 +18,6 @@ Fecha: 2025-06-16
 """
 
 from .user import User
-from .link import Link, LinkCreate
+from .link import Link, NewLink
 
-__all__ = ["User", "Link", "LinkCreate"]
+__all__ = ["User", "Link", "NewLink"]

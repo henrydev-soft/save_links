@@ -20,7 +20,6 @@ def check_length(field: str, value: str, max_length: int, min_length: int = 0) -
         raise ValueError(f"El campo {field} debe tener al menos {min_length} caracteres.")
     return value
 
-
 def is_valid_url(url: str) -> str:
     """ Valida que la URL sea válida."""    
     if not validators.url(url):
@@ -32,3 +31,9 @@ def is_valid_email(email: str) -> str:
     if not validators.email(email):
         raise ValueError("El correo electrónico no es valido.")
     return email
+
+def is_not_empty(field: str, value: str) -> str:
+    """ Valida que el campo no este vacio."""
+    if not value:
+        raise ValueError(f"El campo {field} no puede estar vacio.")
+    return value

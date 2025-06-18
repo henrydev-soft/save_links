@@ -38,6 +38,7 @@ class LinkService:
         return link
     
     def _ensure_ownership(self, link_id: int, user_id: str) -> Link:
+        """ Metodo privado que verifica la pertenencia del link al usuario autenticado """
         link = self._get_link_or_raise(link_id)
         if link.user_id != user_id:
             raise PermissionException()
@@ -52,7 +53,7 @@ class LinkService:
         links = self.link_repository.get_by_user_id(user_id)
         
         logger.info(f"Enlaces obtenidos para usuario: {user_id}")
-        return [LinkMapper.to_read_dto(link) for link in links]
+        return [LinkMapper.entity_to_dto(link) for link in links]
     
     def create_link(self, link_create: LinkCreate, user_id: str) -> LinkRead:
         """Crea un nuevo enlace para el usuario autenticado."""
@@ -60,12 +61,12 @@ class LinkService:
         logger.info(f"Creando enlace para usuario: {user_id}")
         
         self._get_user_or_raise(user_id)              
-        new_link = LinkMapper.to_domain(link_create, user_id)
+        new_link = LinkMapper.create_entity_from_dto(link_create, user_id)
         link_create = self.link_repository.create(new_link)
         
         logger.info(f"Enlace creado ID=%S:",link_create.id)
                     
-        return LinkMapper.to_read_dto(link_create)
+        return LinkMapper.entity_to_dto(link_create)
 
     def update_link(self, link_id: int, link_update: LinkUpdate, user_id: str) -> LinkRead:
         """Actualiza un enlace existente."""
@@ -78,7 +79,7 @@ class LinkService:
         
         logger.info(f"Enlace actualizado con ID=%s:", link_id)
         
-        return LinkMapper.to_read_dto(link_update)
+        return LinkMapper.entity_to_dto(link_update)
 
     
     def delete_link(self, link_id: int, user_id: str) -> None:

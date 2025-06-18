@@ -14,5 +14,6 @@ Fecha: 2025-06-11
 """
 
 from .link_mapper import LinkMapper
+from .user_mapper import UserMapper
 
-__all__ = ["LinkMapper"]
+__all__ = ["LinkMapper", "UserMapper"]

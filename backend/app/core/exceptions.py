@@ -15,12 +15,10 @@ class AppException(Exception):
         self.status_code = status_code
         super().__init__(detail)
 
-
 class UserNotFoundException(AppException):
     """ Excepcion personalizada para el caso de que el usuario no se encuentre en la base de datos """
     def __init__(self, user_id: str):
         super().__init__(f"Usuario con ID {user_id} no encontrado.", status_code=404)
-
 
 class LinkNotFoundException(AppException):
     """ Excepcion personalizada para el caso de que el enlace no se encuentre en la base de datos """

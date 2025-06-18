@@ -13,7 +13,7 @@ Fecha: 2025-06-16
 
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from app.domain.models import Link, LinkCreate
+from app.domain.models import Link, NewLink
 
 class ILinkRepository(ABC):
     """
@@ -27,7 +27,7 @@ class ILinkRepository(ABC):
     """
 
     @abstractmethod
-    def create(self, link: LinkCreate) -> Link:
+    def create(self, link: NewLink) -> Link:
         """Crea un nuevo enlace en el repositorio."""
         pass
 

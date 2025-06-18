@@ -24,14 +24,14 @@ class User:
     Atributos:
         id (str): Identificador único del usuario.
         email (str): Correo electrónico del usuario.
-        name (str): Nombre del usuario.
+        username (str): Nombre del usuario.
         links (List[str]): Lista de enlaces asociados al usuario.
     """
     id: str
     email: str
-    name: str
+    username: str
     links: List[Link] = field(default_factory=list)
 
     def __post_init__(self):
-        if not self.id or not self.email or not self.name:
-            raise ValueError("id, email, and name cannot be empty")
+        if not self.id or not self.email or not self.username:
+            raise ValueError("id, email, and username cannot be empty")

@@ -5,15 +5,15 @@ Autor: Henry Jiménez
 Fecha: 2025-06-11
 """
 
-from app.domain.models import Link
+from app.domain.models import Link, NewLink
 from app.application.dtos import LinkRead, LinkCreate, LinkUpdate
 
 class LinkMapper:
     
     @staticmethod
-    def to_domain(link_create_dto: LinkCreate, user_id: str) -> Link:
+    def create_entity_from_dto(link_create_dto: LinkCreate, user_id: str) -> NewLink:
         """ Mapea un DTO de creación de enlace a una entidad de enlace."""
-        return Link(
+        return NewLink(
             url=link_create_dto.url,
             title=link_create_dto.title,
             description=link_create_dto.description,
@@ -32,7 +32,7 @@ class LinkMapper:
         )
     
     @staticmethod
-    def to_read_dto(link: Link) -> LinkRead:
+    def entity_to_dto(link: Link) -> LinkRead:
         """ Mapea una entidad de enlace a un DTO de lectura."""
         return LinkRead(
             id=link.id,

@@ -27,6 +27,7 @@ from app.core import app_validator
 
 
 class UserBase(BaseModel):
+    id: Optional[str] = None
     email: Optional[str] = None
     username: Optional[str] = None
     
@@ -40,6 +41,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
+    id: str
     email: str
     username: str
     

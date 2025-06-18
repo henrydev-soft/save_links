@@ -40,7 +40,7 @@ class Link:
             raise ValueError("id, title, and user_id cannot be empty")
 
 @dataclass
-class LinkCreate:
+class NewLink:
     """
     Clase que representa los datos necesarios para crear un nuevo enlace.
 
