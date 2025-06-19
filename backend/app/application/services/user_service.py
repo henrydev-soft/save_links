@@ -24,7 +24,7 @@ class UserService:
     
     def _get_user_or_raise(self, user_id: str) -> User:
         """ Metodo privado responsable de obtener el usuario o lanzar una excepcion en caso de no encontrarlo """
-        user = self.user_repository.get_by_id(user_id)
+        user = self.user_repository.get_user_by_id(user_id)
         if not user:
             raise UserNotFoundException(user_id)
         return user
@@ -44,7 +44,7 @@ class UserService:
         
         logger.info(f"Creando nuevo usuario con ID: {user_create.id}")
         user = UserMapper.create_entity_from_dto(user_create)
-        user = self.user_repository.create(user)
+        user = self.user_repository.create_user(user)
         logger.info(f"Usuario creado con ID: {user.id}")
         
         return UserMapper.entity_to_dto(user)
@@ -55,7 +55,7 @@ class UserService:
         logger.info(f"Actualizando usuario con ID: {user_id}")
         user = self._get_user_or_raise(user_id)
         user = UserMapper.update_entity_from_dto(user, user_update)
-        user = self.user_repository.update(user)
+        user = self.user_repository.update_user(user)
         logger.info(f"Usuario actualizado con ID: {user.id}")
         
         return UserMapper.entity_to_dto(user)
@@ -65,5 +65,5 @@ class UserService:
         
         logger.info(f"Eliminando usuario con ID: {user_id}")
         self._get_user_or_raise(user_id)
-        self.user_repository.delete(user_id)
+        self.user_repository.delete_user(user_id)
         logger.info(f"Usuario eliminado con ID: {user_id}")

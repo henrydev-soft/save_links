@@ -28,21 +28,21 @@ class IUserRepository(ABC):
     """
 
     @abstractmethod
-    def create(self, user: User) -> User:
+    def create_user(self, user: User) -> User:
         """Crea un nuevo usuario en el repositorio."""
         pass
 
     @abstractmethod
-    def get_by_id(self, user_id: str) -> Optional[User]:
+    def get_user_by_id(self, user_id: str) -> Optional[User]:
         """Obtiene un usuario por su identificador."""
         pass
 
     @abstractmethod
-    def update(self, user: User) -> User:
+    def update_user(self, user: User) -> User:
         """Actualiza un usuario existente."""
         pass
     
     @abstractmethod
-    def delete(self, user_id: str)-> None:
+    def delete_user(self, user_id: str)-> None:
         """Elimina un usuario por su identificador."""
         pass

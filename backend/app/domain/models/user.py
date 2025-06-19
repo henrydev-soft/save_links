@@ -25,12 +25,10 @@ class User:
         id (str): Identificador único del usuario.
         email (str): Correo electrónico del usuario.
         username (str): Nombre del usuario.
-        links (List[str]): Lista de enlaces asociados al usuario.
     """
     id: str
     email: str
     username: str
-    links: List[Link] = field(default_factory=list)
 
     def __post_init__(self):
         if not self.id or not self.email or not self.username:

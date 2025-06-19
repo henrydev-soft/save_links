@@ -12,7 +12,7 @@ Fecha: 2025-06-16
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List
 from app.domain.models import Link, NewLink
 
 class ILinkRepository(ABC):
@@ -27,26 +27,21 @@ class ILinkRepository(ABC):
     """
 
     @abstractmethod
-    def create(self, link: NewLink) -> Link:
+    def create_link(self, link: NewLink) -> Link:
         """Crea un nuevo enlace en el repositorio."""
         pass
 
     @abstractmethod
-    def get_by_id(self, link_id: str) -> Optional[Link]:
-        """Obtiene un enlace por su identificador."""
-        pass
-
-    @abstractmethod
-    def get_by_user_id(self, user_id: str) -> List[Link]:
+    def get_links_by_user_id(self, user_id: str) -> List[Link]:
         """Obtiene todos los enlaces asociados a un usuario."""
         pass
 
     @abstractmethod
-    def update(self, link: Link) -> Link:
+    def update_link(self, link: Link) -> Link:
         """Actualiza un enlace existente."""
         pass
 
     @abstractmethod
-    def delete(self, link_id: str) -> None:
+    def delete_link(self, link_id: str) -> None:
         """Elimina un enlace por su identificador."""
         pass

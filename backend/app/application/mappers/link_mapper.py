@@ -18,7 +18,7 @@ class LinkMapper:
             title=link_create_dto.title,
             description=link_create_dto.description,
             user_id=user_id,
-            created_at=link_create_dto.created_at
+            tags=link_create_dto.tags if link_create_dto.tags is not None else []
         )
     
     @staticmethod
@@ -28,7 +28,8 @@ class LinkMapper:
             id=existing.id,
             url=link_update_dto.url if link_update_dto.url is not None else existing.url,
             title=link_update_dto.title if link_update_dto.title is not None else existing.title,
-            description=link_update_dto.description if link_update_dto.description is not None else existing.description
+            description=link_update_dto.description if link_update_dto.description is not None else existing.description,
+            tags =  link_update_dto.tags if link_update_dto.tags is not None else existing.tags
         )
     
     @staticmethod
@@ -39,6 +40,7 @@ class LinkMapper:
             url=link.url,
             title=link.title,
             description=link.description,
+            tags=link.tags,
             user_id=link.user_id,
             created_at=link.created_at
         )

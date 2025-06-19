@@ -19,6 +19,6 @@ Fecha: 2025-06-11
 """
 
 from .link_service import LinkService
-#from .user_service import UserService
+from .user_service import UserService
 
-__all__ = ["LinkService"]
+__all__ = ["LinkService", "UserService"]
