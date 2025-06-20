@@ -99,3 +99,6 @@ package-lock.json
 *.bak
 *.orig
 *~
+
+#Local Utilities
+local_utils/

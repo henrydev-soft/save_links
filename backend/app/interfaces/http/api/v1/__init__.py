@@ -13,4 +13,4 @@ Autor: Henry Jiménez
 Fecha: 2025-06-19
 """
 
-from .api_router import router as api_v1_router
+from .api_router import api_v1_router

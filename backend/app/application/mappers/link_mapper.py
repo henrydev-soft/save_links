@@ -29,7 +29,9 @@ class LinkMapper:
             url=link_update_dto.url if link_update_dto.url is not None else existing.url,
             title=link_update_dto.title if link_update_dto.title is not None else existing.title,
             description=link_update_dto.description if link_update_dto.description is not None else existing.description,
-            tags =  link_update_dto.tags if link_update_dto.tags is not None else existing.tags
+            created_at=existing.created_at,
+            tags =  link_update_dto.tags if link_update_dto.tags is not None else existing.tags,
+            user_id=existing.user_id
         )
     
     @staticmethod

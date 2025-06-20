@@ -15,16 +15,18 @@ class UserMapper:
     def create_entity_from_dto(user_create_dto: UserCreate) -> User:
         """ Mapea un DTO de creación de usuario a una entidad de usuario."""
         return User(
+            id=user_create_dto.id,
             email=user_create_dto.email,
             username=user_create_dto.username,
         )
     
     
-    def update_entity_from_dto(user_update_dto: UserUpdate) -> User:
+    def update_entity_from_dto(existing: User, user_update_dto: UserUpdate) -> User:
         """ Mapea un DTO de actualización de usuario a una entidad de usuario."""
         return User(
-            email=user_update_dto.email,
-            username=user_update_dto.username,
+            id=existing.id,
+            email=user_update_dto.email if user_update_dto.email else existing.email,
+            username=user_update_dto.username if user_update_dto.username else existing.username
         )
     
     def entity_to_dto(user: User) -> UserRead:

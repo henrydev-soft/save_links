@@ -7,10 +7,10 @@ proporcionadas en la configuración de la aplicación.
 
 import firebase_admin
 from firebase_admin import credentials, firestore
-import os
+from app.core import settings
 
 # Ruta al archivo de credenciales (ajusta según tu entorno)
-FIREBASE_CREDENTIALS_PATH = os.getenv("FIREBASE_CREDENTIALS_PATH", "path/to/credentials.json")
+FIREBASE_CREDENTIALS_PATH = settings.FIREBASE_CREDENTIALS_PATH
 
 if not firebase_admin._apps:
     cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)

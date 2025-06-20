@@ -12,9 +12,7 @@ Autor: Henry Jiménez
 Fecha: 2025-06-16
 """
 
-from dataclasses import dataclass, field
-from typing import List, Optional
-from .link import Link
+from dataclasses import dataclass
 
 @dataclass
 class User:

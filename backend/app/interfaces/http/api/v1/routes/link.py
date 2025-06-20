@@ -14,26 +14,26 @@ from app.application.dtos import LinkCreate, LinkUpdate, LinkRead
 from app.application.services import LinkService
 
 
-router = APIRouter(prefix="/links", tags=["links"])
+router = APIRouter(tags=["links"])
 
 
-@router.post("/", response_model=LinkRead, status_code=status.HTTP_201_CREATED)
-def create_link(link: LinkCreate, user_id: str, link_service: LinkService = Depends(get_link_service)):
+@router.post("/{user_id}/links", response_model=LinkRead, status_code=status.HTTP_201_CREATED)
+def create_link(user_id: str,link: LinkCreate, link_service: LinkService = Depends(get_link_service)):
     """ Endpoint para crear un nuevo enlace. """    
     return link_service.create_link(link, user_id)
 
-@router.get("/", response_model=list[LinkRead])
+@router.get("/{user_id}/links", response_model=list[LinkRead])
 def get_links_by_user_id(user_id: str, link_service: LinkService = Depends(get_link_service)):
     """ Endpoint para consultar todos los enlaces de un usuario. """
     return link_service.get_links_by_user_id(user_id)
 
-@router.put("/{link_id}", response_model=LinkRead)
-def update_link(link_id: int, link: LinkUpdate, user_id: str, link_service: LinkService = Depends(get_link_service)):
+@router.put("/{user_id}/links/{link_id}", response_model=LinkRead)
+def update_link(user_id: str, link_id: str, link: LinkUpdate, link_service: LinkService = Depends(get_link_service)):
     """ Endpoint para actualizar un enlace existente. """
-    return link_service.update_link(link_id, link, user_id)
+    return link_service.update_link(user_id, link_id, link)
 
-@router.delete("/{link_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_link(link_id: int, user_id: str, link_service: LinkService = Depends(get_link_service)):
+@router.delete("/{user_id}/links/{link_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_link(user_id: str, link_id: str,  link_service: LinkService = Depends(get_link_service)):
     """ Endpoint para eliminar un enlace. """
-    link_service.delete_link(link_id, user_id)
+    link_service.delete_link(user_id, link_id)
 

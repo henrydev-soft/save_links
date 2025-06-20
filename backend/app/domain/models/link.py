@@ -30,14 +30,15 @@ class Link:
     """
     id: str
     title: str
+    url: str
     description: str
     created_at: str
     user_id: str
     tags: List[str] = field(default_factory=list)
 
     def __post_init__(self):
-        if not self.id or not self.title or not self.user_id:
-            raise ValueError("id, title, and user_id cannot be empty")
+        if not self.id or not self.title or not self.url or not self.user_id:
+            raise ValueError("id, title, url,  and user_id cannot be empty")
 
 @dataclass
 class NewLink:
@@ -51,10 +52,11 @@ class NewLink:
         tags (List[str]): Lista de etiquetas asociadas al enlace.
     """
     title: str
-    description: Optional[str] = None
+    url: str
     user_id: str
+    description: Optional[str] = None    
     tags: List[str] = field(default_factory=list)
 
     def __post_init__(self):
-        if not self.title or not self.user_id:
-            raise ValueError("title and user_id cannot be empty")
+        if not self.title or not self.url or not self.user_id:
+            raise ValueError("title, url and user_id cannot be empty")

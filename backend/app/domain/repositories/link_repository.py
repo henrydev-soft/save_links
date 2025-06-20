@@ -35,6 +35,11 @@ class ILinkRepository(ABC):
     def get_links_by_user_id(self, user_id: str) -> List[Link]:
         """Obtiene todos los enlaces asociados a un usuario."""
         pass
+    
+    @abstractmethod
+    def get_link_by_id(self, link_id: str) -> Link:
+        """Obtiene un enlace por su identificador."""
+        pass
 
     @abstractmethod
     def update_link(self, link: Link) -> Link:

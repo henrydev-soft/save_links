@@ -9,6 +9,7 @@ from app.domain.models import Link, NewLink
 from app.domain.repositories import ILinkRepository
 from app.infrastructure.firebase import firebase_client
 from typing import List
+from datetime import datetime, timezone
 from uuid import uuid4
 
 
@@ -22,9 +23,25 @@ class FirebaseLinkRepository(ILinkRepository):
             url=link.get("url"),
             title=link.get("title"),
             description=link.get("description"),
+            created_at=link.get("created_at"),
             user_id=link.get("user_id"),
             tags=link.get("tags")
         ) for link in links]
+    
+    def get_link_by_id(self, link_id) -> Link:
+        """ Obtiene un enlace por su identificador. """
+        link = firebase_client.collection("links").document(link_id).get() 
+        if not link: 
+            return None      
+        return Link(
+            id=link.id,
+            url=link.get("url"),
+            title=link.get("title"),
+            description=link.get("description"),
+            created_at=link.get("created_at"),
+            user_id=link.get("user_id"),
+            tags=link.get("tags")
+        )
     
     def create_link(self, link: NewLink)-> Link:
         """ Crea un nuevo enlace en el repositorio. """
@@ -32,11 +49,15 @@ class FirebaseLinkRepository(ILinkRepository):
         #Generar ID para el nuevo Enlace
         link_id = str(uuid4())
         
+        #Fecha de creación
+        created_at = datetime.now(timezone.utc)
+        
         link_dict = {
             "id":link_id,
             "url":link.url,
             "title":link.title,
             "description":link.description,
+            "created_at":created_at,
             "tags":link.tags,
             "user_id":link.user_id
         }
@@ -48,6 +69,7 @@ class FirebaseLinkRepository(ILinkRepository):
             url=link.url,
             title=link.title,
             description=link.description,
+            created_at=created_at,
             user_id=link.user_id,
             tags=link.tags
         )

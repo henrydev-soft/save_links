@@ -31,6 +31,7 @@ def update_user(user_id: str, user: UserUpdate, user_service: UserService = Depe
     """ Endpoint para actualizar un usuario existente. """ 
     return user_service.update_user(user_id, user)
 
+@router.delete("/{user_id}")
 def delete_user(user_id: str, user_service: UserService = Depends(get_user_service)):
     """ Endpoint para eliminar un usuario existente. """
     return user_service.delete_user(user_id)

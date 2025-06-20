@@ -9,7 +9,7 @@ Actualmente disponibles:
 - FirebaseLinkRepository: Implementación de ILinkRepository
 """
 
-from firebase_link_repository import FirebaseLinkRepository
-from firebase_user_repository import FirebaseUserRepository
+from .firebase_link_repository import FirebaseLinkRepository
+from .firebase_user_repository import FirebaseUserRepository
 
 __all__ = ["FirebaseLinkRepository", "FirebaseUserRepository"]

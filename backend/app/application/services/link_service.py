@@ -30,14 +30,14 @@ class LinkService:
             raise UserNotFoundException(user_id)
         return user
 
-    def _get_link_or_raise(self, link_id: int) -> Link:
+    def _get_link_or_raise(self, link_id: str) -> Link:
         """ Metodo privado responsable de obtener el link o lanzar una excepcion en caso de no encontrarlo """
         link = self.link_repository.get_link_by_id(link_id)
         if not link:
             raise LinkNotFoundException(link_id)
         return link
     
-    def _ensure_ownership(self, link_id: int, user_id: str) -> Link:
+    def _ensure_ownership(self,  user_id: str, link_id: str) -> Link:
         """ Metodo privado que verifica la pertenencia del link al usuario autenticado """
         link = self._get_link_or_raise(link_id)
         if link.user_id != user_id:
@@ -68,12 +68,12 @@ class LinkService:
                     
         return LinkMapper.entity_to_dto(link_create)
 
-    def update_link(self, link_id: int, link_update: LinkUpdate, user_id: str) -> LinkRead:
+    def update_link(self, user_id: str, link_id: str, link_update: LinkUpdate) -> LinkRead:
         """Actualiza un enlace existente."""
         
         logger.info(f"Actualizando Enlace ID=%s:", link_id)
         
-        existing_link = self._ensure_ownership(link_id, user_id)    
+        existing_link = self._ensure_ownership(user_id, link_id)    
         updated_entity = LinkMapper.update_entity_from_dto(existing_link, link_update)
         link_update = self.link_repository.update_link(updated_entity)
         
@@ -82,12 +82,12 @@ class LinkService:
         return LinkMapper.entity_to_dto(link_update)
 
     
-    def delete_link(self, link_id: int, user_id: str) -> None:
+    def delete_link(self, user_id: str, link_id: str) -> None:
         """Elimina un enlace."""
         
         logger.info(f"Eliminando Enlace ID=%s:", link_id)
         
-        link = self._ensure_ownership(link_id, user_id)
-        self.link_repository.delete_link(link)
+        link = self._ensure_ownership(user_id,link_id)
+        self.link_repository.delete_link(link.id)
         
         logger.info(f"Enlace eliminado con ID=%s:", link_id)

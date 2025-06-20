@@ -16,3 +16,6 @@ Archivos incluidos:
 Autor: Henry Jiménez
 Fecha: 2025-06-19
 """
+
+from .user import router as user_router
+from .link import router as link_router

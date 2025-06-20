@@ -14,10 +14,12 @@ class FirebaseUserRepository(IUserRepository):
     def get_user_by_id(self, user_id: str) -> User:
         """Obtiene un usuario por su identificador."""
         user_dict = firebase_client.collection("users").document(user_id).get().to_dict()
+        if not user_dict:
+            return None
         return User(
             id=user_id,
             email=user_dict.get("email"),
-            password=user_dict.get("password")
+            username=user_dict.get("username")
         )
         
     

@@ -31,7 +31,7 @@ class LinkBase(BaseModel):
     description: Optional[str] = None
     user_id: Optional[str] = None
     created_at: Optional[datetime] = None
-    tags = Optional[list[str]] = None
+    tags : Optional[list[str]] = None
 
     @field_validator("url")
     @classmethod
@@ -53,7 +53,6 @@ class LinkCreate(LinkBase):
     url: str
     title: str
     description: str
-    created_at: datetime
     
 class LinkUpdate(LinkBase):
     pass
