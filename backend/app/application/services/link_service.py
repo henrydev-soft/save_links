@@ -22,6 +22,11 @@ class LinkService:
     def __init__(self, link_repository: ILinkRepository, user_repository: IUserRepository):
         self.link_repository = link_repository
         self.user_repository = user_repository
+    
+    def __validate_user_data(self, user_data: dict, user_id: str) -> None:
+        """ Valida que el usuario autenticado coincida con los datos del usuario."""
+        if user_data["uid"] != user_id:
+            raise PermissionException()
         
     def _get_user_or_raise(self, user_id: str) -> User:
         """ Metodo privado responsable de obtener el usuario o lanzar una excepcion en caso de no encontrarlo """
@@ -44,22 +49,23 @@ class LinkService:
             raise PermissionException()
         return link
     
-    def get_links_by_user_id(self, user_id: str) -> List[LinkRead]:
+    def get_links_by_user_id(self, user_id: str, user_data: dict) -> List[LinkRead]:
         """Obtiene todos los enlaces asociados a un usuario."""
         
         logger.info(f"Obteniendo enlaces para usuario: {user_id}")
         
+        self.__validate_user_data(user_data, user_id)
         self._get_user_or_raise(user_id)       
         links = self.link_repository.get_links_by_user_id(user_id)
         
         logger.info(f"Enlaces obtenidos para usuario: {user_id}")
         return [LinkMapper.entity_to_dto(link) for link in links]
     
-    def create_link(self, link_create: LinkCreate, user_id: str) -> LinkRead:
+    def create_link(self, link_create: LinkCreate, user_id: str, user_data: dict) -> LinkRead:
         """Crea un nuevo enlace para el usuario autenticado."""
         
         logger.info(f"Creando enlace para usuario: {user_id}")
-        
+        self.__validate_user_data(user_data, user_id)
         self._get_user_or_raise(user_id)              
         new_link = LinkMapper.create_entity_from_dto(link_create, user_id)
         link_create = self.link_repository.create_link(new_link)
@@ -68,11 +74,11 @@ class LinkService:
                     
         return LinkMapper.entity_to_dto(link_create)
 
-    def update_link(self, user_id: str, link_id: str, link_update: LinkUpdate) -> LinkRead:
+    def update_link(self, user_id: str, link_id: str, link_update: LinkUpdate, user_data: dict) -> LinkRead:
         """Actualiza un enlace existente."""
         
         logger.info(f"Actualizando Enlace ID=%s:", link_id)
-        
+        self.__validate_user_data(user_data, user_id)
         existing_link = self._ensure_ownership(user_id, link_id)    
         updated_entity = LinkMapper.update_entity_from_dto(existing_link, link_update)
         link_update = self.link_repository.update_link(updated_entity)
@@ -82,11 +88,12 @@ class LinkService:
         return LinkMapper.entity_to_dto(link_update)
 
     
-    def delete_link(self, user_id: str, link_id: str) -> None:
+    def delete_link(self, user_id: str, link_id: str, user_data: dict) -> None:
         """Elimina un enlace."""
         
         logger.info(f"Eliminando Enlace ID=%s:", link_id)
         
+        self.__validate_user_data(user_data, user_id)
         link = self._ensure_ownership(user_id,link_id)
         self.link_repository.delete_link(link.id)
         
