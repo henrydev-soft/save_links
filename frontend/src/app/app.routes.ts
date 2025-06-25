@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Login } from './components/login/login';
 import { Signup } from './components/signup/signup';
 import { Links } from './components/links/links';
+import { Dashboard } from './components/dashboard/dashboard';
 import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
@@ -9,7 +10,7 @@ export const routes: Routes = [
     { path: 'signup', component: Signup },
     { 
         path: '', 
-        component: Links, 
+        component: Dashboard, 
         canActivate: [authGuard] // Protege la ruta de Links con el guardia de autenticación
     },
 

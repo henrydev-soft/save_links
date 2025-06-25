@@ -15,6 +15,12 @@ import { Subscription } from 'rxjs'; // Necesario para Observables y Subscriptio
   templateUrl: './links.html',
   styleUrl: './links.css'
 })
+
+export class Links {
+  
+}
+
+/*
 export class Links  implements OnInit, OnDestroy {
   
   private linkService: LinkService = inject(LinkService); // Inyecta el LinkService
@@ -28,7 +34,6 @@ export class Links  implements OnInit, OnDestroy {
   errorMessage: string | null = null; // Mensajes de error
 
   private userSubscription: Subscription | null = null;
-  private linksSubscription: Subscription | null = null;
 
   constructor() {
     // Inicializa el formulario con FormBuilder    
@@ -54,20 +59,16 @@ export class Links  implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Desuscribirse para evitar fugas de memoria
     this.userSubscription?.unsubscribe();
-    this.linksSubscription?.unsubscribe();
   }
 
-  loadLinks(): void {
+  async loadLinks(): Promise<void> {
     this.errorMessage = null;
-    this.linksSubscription = this.linkService.getLinks().subscribe({
-      next: (data) => {
-        this.links = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar enlaces:', err);
-        this.errorMessage = 'No se pudieron cargar los enlaces. ¿Está tu backend corriendo y configurado correctamente?';
-      }
-    });
+    try {
+      this.links = await this.linkService.getLinks();
+    } catch (error: any) {
+      console.error('Error al cargar los enlaces:', error);
+      this.errorMessage = 'Error al cargar los enlaces.';
+    }
   }
 
   // Prepara el formulario para añadir un nuevo enlace
@@ -85,56 +86,43 @@ export class Links  implements OnInit, OnDestroy {
   }
 
   // Envía el formulario para añadir o actualizar un enlace
-  submitLink(): void {
+  async submitLink(): Promise<void> {
     this.errorMessage = null;
     if (this.linkForm.valid) {
       const linkData: LinkCreate | LinkUpdate = this.linkForm.value;
 
-      if (this.editingLink) {
-        // Actualizar enlace existente
-        this.linkService.updateLink(this.editingLink.id, linkData).subscribe({
-          next: () => {
-            alert('Enlace actualizado con éxito.'); // O usa una notificación más elegante
-            this.loadLinks(); // Recarga los enlaces para ver el cambio
-            this.addNewLink(); // Resetea el formulario
-          },
-          error: (err) => {
-            console.error('Error al actualizar enlace:', err);
-            this.errorMessage = 'Error al actualizar el enlace.';
-          }
-        });
-      } else {
-        // Crear nuevo enlace
-        this.linkService.createLink(linkData as LinkCreate).subscribe({
-          next: () => {
-            alert('Enlace creado con éxito.');
-            this.loadLinks();
-            this.addNewLink();
-          },
-          error: (err) => {
-            console.error('Error al crear enlace:', err);
-            this.errorMessage = 'Error al crear el enlace.';
-          }
-        });
+      try {
+        if (this.editingLink) {
+          await this.linkService.updateLink(this.editingLink.id, linkData);
+          alert('Enlace actualizado con éxito.');
+        } else {
+          await this.linkService.createLink(linkData as LinkCreate);
+          alert('Enlace creado con éxito.');
+        }
+
+        this.loadLinks();
+        this.addNewLink();
+      } catch (err) {
+        console.error('Error al guardar enlace:', err);
+        this.errorMessage = 'Error al guardar el enlace.';
       }
+
     } else {
       this.errorMessage = 'Por favor, rellena todos los campos requeridos correctamente.';
     }
   }
 
   // Eliminar un enlace
-  deleteLink(linkId: string): void {
+  async deleteLink(linkId: string): Promise<void> {
     if (confirm('¿Estás seguro de que quieres eliminar este enlace?')) {
-      this.linkService.deleteLink(linkId).subscribe({
-        next: () => {
-          alert('Enlace eliminado con éxito.');
-          this.loadLinks(); // Recarga los enlaces
-        },
-        error: (err) => {
-          console.error('Error al eliminar enlace:', err);
-          this.errorMessage = 'Error al eliminar el enlace.';
-        }
-      });
+      try {
+        await this.linkService.deleteLink(linkId);
+        alert('Enlace eliminado con éxito.');
+        this.loadLinks();
+      } catch (err) {
+        console.error('Error al eliminar enlace:', err);
+        this.errorMessage = 'Error al eliminar el enlace.';
+      }
     }
   }
 
@@ -148,4 +136,4 @@ export class Links  implements OnInit, OnDestroy {
     });
   }
 
-}
+} */

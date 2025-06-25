@@ -1,0 +1,52 @@
+<h2 class="text-xl font-semibold mb-4">Categoria</h2>
+
+<div *ngIf="(links$ | async) as links; else loading">
+  <div class="bg-white rounded shadow p-4 mb-4 relative"*ngFor="let link of links$ | async">
+    <!-- Contenido principal -->
+    <div>
+      <h3 class="text-lg font-semibold">{{ link.title }}</h3>
+      <div class="mt-2 flex flex-wrap gap-2">
+      <span
+        *ngFor="let tag of link.tags"
+        class="inline-block bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"
+      >
+        {{ tag }}
+      </span>
+    </div>
+      <p class="text-sm text-gray-600">{{ link.description }}</p>
+      <a [href]="link.url" target="_blank" class="text-blue-600">{{ link.url }}</a>
+    </div>
+
+    <!-- Menú de acciones -->
+    <div class="absolute top-4 right-4">
+      <button
+        (click)="toggleMenu(link.id)"
+        class="menu-toggle text-gray-600 hover:text-black text-xl"
+      >⋮</button>
+
+      <div
+        *ngIf="openMenuId === link.id"
+        class="menu-content absolute right-0 mt-2 w-32 bg-white border rounded shadow z-50"
+      >
+        <button
+          class="w-full text-left px-4 py-2 hover:bg-gray-100"
+          (click)="editLink(link)"
+        >Editar</button>
+        <button
+          class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+          (click)="confirmDelete(link.id)"
+        >Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Cargando enlaces...</p>
+</ng-template>
+
+<app-link-modal
+  [visible]="openEditModal"
+  [existingLink]="linkToEdit"
+  (close)="onCloseModal()"
+></app-link-modal>

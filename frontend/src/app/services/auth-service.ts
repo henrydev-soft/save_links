@@ -113,6 +113,15 @@ export class AuthService {
     );
   }
 
+  /**
+   * Permite obtener el id del usuario
+   * @returns uid del usuario
+   */
+  async getCurrentUserId(): Promise<string | null> {
+    const user = await this.auth.currentUser;
+    return user ? user.uid : null;
+  }
+
 
 
 }
